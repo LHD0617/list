@@ -10,7 +10,7 @@
  */
 
 #ifndef __LIST_H_
-#ifndef __LIST_H_
+#define __LIST_H_
 
 /* @typedef */
 typedef unsigned char       list_uint8;
@@ -37,6 +37,16 @@ typedef list_int8           list_err;
 #pragma pack(1) // 单字节对齐
 
 /**
+ * @brief 节点结构体
+ * 
+ */
+typedef struct list_node_t
+{
+    struct list_node_t* next;   // 指针域
+    list_uint8 data[];          // 数据域
+}list_node_t;
+
+/**
  * @brief 链表控制块
  * 
  */
@@ -52,5 +62,6 @@ typedef struct
 /* @Function declaration */
 list_cb_t* list_create(list_uint8 size);
 void list_delete(list_cb_t cb);
+list_err list_append(list_cb_t* cb, void* data);
 
 #endif
