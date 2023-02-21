@@ -35,9 +35,10 @@ list_cb_t* list_create(list_uint8 size)
  * 
  * @param cb 对象指针
  */
-void list_delete(list_cb_t cb)
+void list_delete(list_cb_t* cb)
 {
-    
+    list_clean(cb);
+    LIST_FREE(cb);
 }
 
 /**
@@ -49,6 +50,7 @@ void list_delete(list_cb_t cb)
  */
 list_err list_append(list_cb_t* cb, void* data)
 {
+    if(!cb) return LIST_ERROR_NOTEXIST;
     list_node_t* node = (list_node_t*)LIST_MALLOC(sizeof(list_node_t) + cb->size);
     list_uint32 test = sizeof(list_node_t) + cb->size;
     if(!node) return LIST_ERROR_NOTSPACE;
@@ -68,4 +70,22 @@ list_err list_append(list_cb_t* cb, void* data)
     return LIST_ERROR_SUCCESS;
 }
 
-#pragma pack() // 恢复默认字节对齐
+/**
+ * @brief 列表清空
+ * 
+ * @param cb 对象指针
+ * @return list_err 错误码
+ */
+list_err list_clean(list_cb_t* cb)
+{
+    if(!cb) return LIST_ERROR_NOTEXIST;
+    list_node_t* node = cb->next;
+    cb->next = LIST_NULL;
+    list_node_t* temp = LIST_NULL;
+    while(node)
+    {
+        temp = node->next;
+		LIST_FREE(node);
+		node = temp;
+    }
+}

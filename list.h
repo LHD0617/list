@@ -32,6 +32,7 @@ typedef list_int8           list_err;
 #define         LIST_NULL                   NULL        // 空类型
 #define         LIST_ERROR_SUCCESS          0x00        // 成功
 #define         LIST_ERROR_NOTSPACE         0x01        // 空间不足
+#define         LIST_ERROR_NOTEXIST         0x02        // 列表不存在
 
 /* @struct */
 #pragma pack(1) // 单字节对齐
@@ -61,7 +62,8 @@ typedef struct
 
 /* @Function declaration */
 list_cb_t* list_create(list_uint8 size);
-void list_delete(list_cb_t cb);
+void list_delete(list_cb_t* cb);
 list_err list_append(list_cb_t* cb, void* data);
+list_err list_clean(list_cb_t* cb);
 
 #endif
