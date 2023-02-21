@@ -39,6 +39,7 @@ void list_delete(list_cb_t* cb)
 {
     list_clean(cb);
     LIST_FREE(cb);
+    cb = LIST_NULL;
 }
 
 /**
@@ -81,6 +82,7 @@ list_err list_clean(list_cb_t* cb)
     if(!cb) return LIST_ERROR_NOTEXIST;
     list_node_t* node = cb->next;
     cb->next = LIST_NULL;
+    cb->len = 0;
     list_node_t* temp = LIST_NULL;
     while(node)
     {
