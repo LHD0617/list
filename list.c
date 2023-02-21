@@ -53,7 +53,6 @@ list_err list_append(list_cb_t* cb, void* data)
 {
     if(!cb) return LIST_ERROR_NOTEXIST;
     list_node_t* node = (list_node_t*)LIST_MALLOC(sizeof(list_node_t) + cb->size);
-    list_uint32 test = sizeof(list_node_t) + cb->size;
     if(!node) return LIST_ERROR_NOTSPACE;
     memcpy(node->data, data, cb->size);
     node->next = LIST_NULL;
@@ -67,6 +66,29 @@ list_err list_append(list_cb_t* cb, void* data)
         while(temp->next) temp = temp->next;
         temp->next = node;
     }
+    cb->len++;
+    return LIST_ERROR_SUCCESS;
+}
+
+/**
+ * @brief 列表插入
+ * 
+ * @param cb 对象指针
+ * @param index 序号
+ * @param data 数据指针
+ * @return list_err 错误码
+ */
+list_err list_insert(list_cb_t* cb, list_uint32 index, void* data)
+{
+    if(!cb) return LIST_ERROR_NOTEXIST;
+    if(index >= cb->len) return LIST_ERROR_OUTRANGE;
+    list_node_t* node = (list_node_t*)LIST_MALLOC(sizeof(list_node_t) + cb->size);
+    if(!node) return LIST_ERROR_NOTSPACE;
+    memcpy(node->data, data, cb->size);
+    list_node_t* temp = cb->next;
+    while(index--) temp = temp->next;
+    node->next = temp->next;
+    temp->next = node;
     cb->len++;
     return LIST_ERROR_SUCCESS;
 }
