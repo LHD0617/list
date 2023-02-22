@@ -139,7 +139,6 @@ list_err list_clean(list_cb_t* cb)
     list_node_t* node = cb->next;
     cb->next = LIST_NULL;
     cb->len = 0;
-    LIST_FREE(cb);
     list_node_t* temp = LIST_NULL;
     while(node)
     {
