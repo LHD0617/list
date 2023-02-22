@@ -12,6 +12,10 @@
 #ifndef __LIST_H_
 #define __LIST_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* @typedef */
 typedef unsigned char       list_uint8;
 typedef unsigned short int  list_uint16;
@@ -71,5 +75,9 @@ list_err list_clean(list_cb_t* cb);
 list_err list_revise(list_cb_t* cb, list_uint32 index, void* data);
 list_err list_query(list_cb_t* cb, list_uint32 index, void* data);
 list_uint32 list_count(list_cb_t* cb);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
