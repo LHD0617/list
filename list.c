@@ -147,3 +147,39 @@ list_err list_clean(list_cb_t* cb)
 		node = temp;
     }
 }
+
+/**
+ * @brief 元素修改
+ * 
+ * @param cb 对象指针
+ * @param index 序号
+ * @param data 数据
+ * @return list_err 错误码
+ */
+list_err list_revise(list_cb_t* cb, list_uint32 index, void* data)
+{
+    if(!cb) return LIST_ERROR_NOTEXIST;
+    if(index >= cb->len) return LIST_ERROR_OUTRANGE;
+    list_node_t* node = cb->next;
+    while(index--) node = node->next;
+    memcpy(node->data, data, cb->size);
+    return LIST_ERROR_SUCCESS;
+}
+
+/**
+ * @brief 元素查询
+ * 
+ * @param cb 对象指针
+ * @param index 序号
+ * @param data 数据输出地址
+ * @return list_err 错误码
+ */
+list_err list_query(list_cb_t* cb, list_uint32 index, void* data)
+{
+    if(!cb) return LIST_ERROR_NOTEXIST;
+    if(index >= cb->len) return LIST_ERROR_OUTRANGE;
+    list_node_t* node = cb->next;
+    while(index--) node = node->next;
+    memcpy(data, node->data, cb->size);
+    return LIST_ERROR_SUCCESS;
+}
