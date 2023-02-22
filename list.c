@@ -146,6 +146,7 @@ list_err list_clean(list_cb_t* cb)
 		LIST_FREE(node);
 		node = temp;
     }
+    return LIST_ERROR_SUCCESS;
 }
 
 /**
