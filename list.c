@@ -139,6 +139,7 @@ list_err list_clean(list_cb_t* cb)
     list_node_t* node = cb->next;
     cb->next = LIST_NULL;
     cb->len = 0;
+    LIST_FREE(cb);
     list_node_t* temp = LIST_NULL;
     while(node)
     {
@@ -182,4 +183,16 @@ list_err list_query(list_cb_t* cb, list_uint32 index, void* data)
     while(index--) node = node->next;
     memcpy(data, node->data, cb->size);
     return LIST_ERROR_SUCCESS;
+}
+
+/**
+ * @brief 获取列表长度
+ * 
+ * @param cb 对象指针
+ * @return list_uint32 列表长度
+ */
+list_uint32 list_count(list_cb_t* cb)
+{
+    if(!cb) return 0;
+    return cb->len;
 }

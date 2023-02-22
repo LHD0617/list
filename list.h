@@ -70,5 +70,6 @@ list_err list_removeAt(list_cb_t* cb, list_uint32 index);
 list_err list_clean(list_cb_t* cb);
 list_err list_revise(list_cb_t* cb, list_uint32 index, void* data);
 list_err list_query(list_cb_t* cb, list_uint32 index, void* data);
+list_uint32 list_count(list_cb_t* cb);
 
 #endif
