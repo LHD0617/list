@@ -86,10 +86,44 @@ list_err list_insert(list_cb_t* cb, list_uint32 index, void* data)
     if(!node) return LIST_ERROR_NOTSPACE;
     memcpy(node->data, data, cb->size);
     list_node_t* temp = cb->next;
+    if(!index--) 
+    {
+        node->next = temp;
+        cb->next = node;
+        cb->len++;
+        return LIST_ERROR_SUCCESS;
+    }
     while(index--) temp = temp->next;
     node->next = temp->next;
     temp->next = node;
     cb->len++;
+    return LIST_ERROR_SUCCESS;
+}
+
+/**
+ * @brief 列表删除指定元素
+ * 
+ * @param cb 对象指针
+ * @param index 序号
+ * @return list_err 错误码
+ */
+list_err list_removeAt(list_cb_t* cb, list_uint32 index)
+{
+    if(!cb) return LIST_ERROR_NOTEXIST;
+    if(index >= cb->len) return LIST_ERROR_OUTRANGE;
+    list_node_t* node = cb->next;
+    if(!index--)
+    {
+        cb->next = node->next;
+        LIST_FREE(node);
+        cb->len--;
+        return LIST_ERROR_SUCCESS;
+    }
+    while(index--) node = node->next;
+    list_node_t* temp = node->next;
+    node->next = temp->next;
+    LIST_FREE(temp);
+    cb->len--;
     return LIST_ERROR_SUCCESS;
 }
 
